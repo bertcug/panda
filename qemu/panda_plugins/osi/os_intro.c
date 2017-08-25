@@ -198,10 +198,15 @@ bool init_plugin(void *self) {
 
         panda_require("osi_linux");
     }
-    if (panda_os_type == OST_WINDOWS) {
+    if (panda_os_type == OST_WINDOWS && panda_os_bits == 32) {
         g_printf("OSI grabbing Windows introspection backend.\n");
-        panda_require("win7x86intro");
-        panda_require("wintrospection");
+        
+        if(!strcmp(panda_os_details, "xpsp3")) 
+            panda_require("osi_winxpsp3x86");
+        else if(!strcmp(panda_os_details, "7")) {
+            panda_require("win7x86intro");
+            panda_require("wintrospection");
+        }
     }
     return true;
 }
